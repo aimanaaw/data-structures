@@ -76,12 +76,12 @@ class SinglyLinkedList {
 		if(!this.head) {
 			this.head = val;
 			this.tail = val;
-			this.length++;
+		} else {
+			let oldHead = this.head;
+			this.head = newNode;
+			newNode.next = oldHead;
 		}
 
-		let oldHead = this.head;
-		this.head = newNode;
-		newNode.next = oldHead;
 		this.length++;
 		return this;
 	}
