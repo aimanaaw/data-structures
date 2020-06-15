@@ -1,6 +1,8 @@
-// Retrieve a node by its position
+// Get a value at a specified index
 
-// 
+// Accept an index
+// Check if index is within the length
+// Manually loop through until the index is reached
 
 class Node {
 	constructor(val) {
@@ -81,6 +83,18 @@ class SinglyLinkedList {
 		this.length++;
 		return this;
 	}
+
+	getValue(val) {
+		if (val < 0 || val >= this.length) return null;
+		let counter = 0;
+		let currentNode = this.head;
+		while (counter < val) {
+			currentNode = currentNode.next;
+			counter++;
+		}
+		return currentNode;
+
+	}
 }
 
 let list = new SinglyLinkedList()
@@ -92,6 +106,5 @@ list.push('93');
 list.push('95');
 list.push('97');
 list.push('99');
-
-console.log(list.unshift(83));
+console.log(list.getValue(9));
 console.log(list);
