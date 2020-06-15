@@ -23,9 +23,7 @@ function radixSort(nums) {
 		for (let i = 0; i < nums.length; i++) {
 			digitBuckets[getDigit(nums[i], k)].push(nums[i]);
 		}
-		console.log('digit buckets', digitBuckets);
 		nums = [].concat(...digitBuckets);
-		console.log('nums', nums)
 	}
 	return nums
 }
