@@ -1,4 +1,4 @@
-// Push a new node at the end
+// Pop a new node from the end
 
 class Node {
 	constructor(val) {
