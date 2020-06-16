@@ -1,4 +1,4 @@
-// Remove a node from the beginning
+// Add a node to the beginning
 
 class Node {
 	constructor(val) {
@@ -57,6 +57,21 @@ class DoublyLinkedList {
 		this.length--;
 		return this;
 	}
+
+	unshift(val) {
+			let newNode = new Node(val);
+			if (this.length === 0) {
+				this.head = newNode;
+				this.tail = newNode;
+			} else {
+				newNode.next = this.head;
+				this.head.prev = newNode;
+				this.head = newNode;
+			}
+			this.length++;
+			return this;
+
+	}
 }
 
 let list = new DoublyLinkedList();
@@ -70,4 +85,4 @@ list.push('95');
 list.push('97');
 list.push('99');
 console.log(list)
-console.log(list.shift());
+console.log(list.unshift(83));
