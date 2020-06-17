@@ -104,14 +104,23 @@ class DoublyLinkedList {
 
 	insert (newValue, index) {
 		if (index < 0 || index >= this.length) return null;
-		let previousNode = this.getValue(index - 1);
-		let nextNode = this.getValue(index);
-		let newNode = new Node(newValue);
-		previousNode.next = newNode;
-		nextNode.prev = newNode;
-		newNode.next = nextNode;
-		newNode.prev = previousNode;
-		this.length++;
+		if (index === 0) {
+			this.unshift(newValue);
+			return true;
+		} else if (index === this.length) {
+			this.push(newValue);
+			return true;
+		} else {
+			let previousNode = this.getValue(index - 1);
+			let nextNode = this.getValue(index);
+			let newNode = new Node(newValue);
+			
+			previousNode.next = newNode;
+			nextNode.prev = newNode;
+			newNode.next = nextNode;
+			newNode.prev = previousNode;
+			this.length++;
+		}
 		return this;
 	}
 }
@@ -127,4 +136,4 @@ list.push('95');
 list.push('97');
 list.push('99');
 // console.log(list)
-console.log(list.insert(92, 4));
+console.log(list.insert(86, 1));
