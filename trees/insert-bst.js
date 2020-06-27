@@ -19,12 +19,27 @@ class BinarySearchTree {
 			this.root = newNode;
 			return this;
 		}
-
-		if (newNode.value > this.root.value) {
-			if (this.root.right) {
-
+		let current = this.root;
+		let looper = true;
+		while (looper) {
+			if (val > current.value) {
+				if (current.right) {
+					current = current.right;
+				} else {
+					current.right = newNode;
+					looper = false;
+				}
+			} else {
+				if (current.left) {
+					current = current.left;
+				} else {
+					current.left = newNode;
+					looper = false;
+				}
 			}
 		}
+		return this;
+
 	}
 }
 
@@ -33,5 +48,4 @@ tree.root = new Node(10);
 tree.root.right = new Node(15);
 tree.root.left = new Node(7);
 tree.root.left.right = new Node(9);
-
-console.log(tree.root.left)
+console.log(tree.insert(10));
