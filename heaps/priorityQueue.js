@@ -1,11 +1,19 @@
-// Remove from a heap - Max Binary Heap
+// Priority Queue
 
-class MaxBinaryHeap {
-	constructor() {
-		this.values = [55,50,41,39,33,18,27,12];
+class Node {
+	constructor(val, priority) {
+		this.val = val;
+		this.priority = priority;
 	}
-	insert(element) {
-		this.values.push(element);
+}
+
+class PriorityQueue {
+	constructor() {
+		this.values = [];
+	}
+	enqueue(setValue, setPriority) {
+		let newNode = new Node(setValue, setPriority);
+		this.values.push(newNode);
 		this.bubbleUp();
 		return this;
 	}
@@ -17,7 +25,7 @@ class MaxBinaryHeap {
 			let parentIdx = Math.floor((idx - 1) / 2);
 			let parent = this.values[parentIdx];
 
-			if (element <= parent) break;
+			if (element.priority <= parent.priority) break;
 
 			this.values[parentIdx] = element;
 			this.values[idx] = parent;
@@ -25,60 +33,59 @@ class MaxBinaryHeap {
 		}
 	}
 
-	extractMax() {
-		let lastElement = this.values.pop();
-		this.values[0] = lastElement;
+	dequeue() {
 
-		let currentIdx = this.values.indexOf(lastElement);
-		let currentValue = this.values[currentIdx];
-
-		let leftIdx = (2 * currentIdx) + 1;
-		let leftValue = this.values[leftIdx]
-		let rightIdx = (2 * currentIdx) + 2;
-		let rightValue = this.values[rightIdx];
-		let loop = true;
-
-		while (loop) {
-			if (currentValue < leftValue && leftValue > rightValue) {
-				let tempIdx = currentIdx;
-				let tempValue = currentValue;
-				this.values[currentIdx] = leftValue;
-				this.values[leftIdx] = tempValue;
-
-				currentIdx = leftIdx;
-				currentValue = this.values[currentIdx];
-				leftIdx = (2 * currentIdx) + 1;
-				leftValue = this.values[leftIdx];
-				console.log("left", currentValue, leftValue)
-
-			} else if (currentValue < leftValue && leftValue < rightValue) {
-				let tempIdx = currentIdx;
-				let tempValue = currentValue;
-				this.values[currentIdx] = rightValue;
-				this.values[rightIdx] = tempValue;
-
-				currentIdx = rightIdx;
-				currentValue = this.values[currentIdx];
-				rightIdx = (2 * currentIdx) + 2;
-				rightValue = this.values[rightIdx];
-
-				console.log("right", currentValue, rightValue);
-			} else if (rightIdx > this.values.length - 1 || leftIdx > this.values.length - 1) {
-				loop = false;
-			} else if (currentValue > leftValue && currentValue > rightValue) {
-				loop = false;
-			}
+		const max = this.values[0];
+		let end = this.values.pop();
+		if (this.values.length > 0) {
+			this.values[0] = end;
+			this.sinkDown();
 		}
-		return lastElement;
+		return max;
 	}
 
+	sinkDown() {
+		let idx = 0;
+		const length = this.values.length;
+		const element = this.values[0];
+		while (true) {
+			let leftChildIdx = 2 * idx + 1;
+			let rightChildIdx = 2 * idx + 2;
+			let leftChild, rightChild;
+			let swap = null;
+
+			if (leftChildIdx < length) {
+				leftChild = this.values[leftChildIdx];
+				if (leftChild.priority > element.priority) {
+					swap = leftChildIdx;
+				}
+			}
+			if (rightChildIdx < length) {
+				rightChild = this.values[rightChildIdx];
+				if (
+					(swap === null && rightChild.priority > element.priority) || 
+					(swap !== null && rightChild.priority > leftChild.priority)
+					) {
+					swap = rightChildIdx;
+				}
+			}
+
+			if (swap === null) break;
+			this.values[idx] = this.values[swap];
+			this.values[swap] = element;
+			idx = swap;
+		}
+	}
 
 }
 
 
-// [41,39,33,18,27,12]
+// [55,39,41,18,27,12,33]
 
-let heap = new MaxBinaryHeap();
-console.log(heap)
-console.log(heap.extractMax());
-console.log(heap)
+let ER = new PriorityQueue();
+console.log(ER.enqueue("common cold", 1));
+console.log(ER.enqueue("gunshot wound", 5));
+console.log(ER.enqueue("burning man", 2));
+console.log(ER.dequeue());
+console.log(ER.dequeue());
+console.log(ER.dequeue());
