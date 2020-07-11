@@ -1,4 +1,4 @@
-// Undirected Graph
+// Depth First Search
 
 class Graph {
 	constructor () {
@@ -30,26 +30,44 @@ class Graph {
 		delete this.adjacencyList[vertex];
 		return this.adjacencyList;
 	}
+
+	dFSRecursive(start) {
+		const result = [];
+		const visited = {};
+		const adjacencyList = this.adjacencyList;
+
+		(function dfs(vertex) {
+			if (!vertex) return null;
+
+			visited[vertex] = true;
+			result.push(vertex);
+
+			adjacencyList[vertex].forEach(neighbour => {
+				if(!visited[neighbour]) {
+					return dfs(neighbour);
+				}
+			})
+		
+				})(start);
+
+				return result;
+	}
 }
 
 let g = new Graph();
-console.log(g.addVertex("Tokyo"))
-console.log(g.addVertex("Toronto"))
-console.log(g.addVertex("San Francisco"))
-console.log(g.addVertex("New York"))
-console.log(g.addVertex("Dallas"))
-console.log(g.addVertex("Vancouver"))
-console.log(g.addVertex("Calgary"))
+g.addVertex("A")
+g.addVertex("B")
+g.addVertex("C")
+g.addVertex("D")
+g.addVertex("E")
+g.addVertex("F")
 
-console.log(g.addEdge("Tokyo", "Toronto"))
-console.log(g.addEdge("Tokyo", "Vancouver"))
-console.log(g.addEdge("Tokyo", "Dallas"))
-console.log(g.addEdge("Tokyo", "Calgary"))
+g.addEdge("A", "B")
+g.addEdge("A", "C")
+g.addEdge("B", "D")
+g.addEdge("C", "E")
 
-console.log(g.addEdge("Toronto", "New York"))
-console.log(g.addEdge("Toronto", "Calgary"))
-console.log(g.addEdge("Toronto", "Vancouver"))
-console.log(g.addEdge("Toronto", "Dallas"))
-
-console.log(g.removeEdge("Tokyo", "Toronto"))
-console.log(g.removeVertex("Tokyo"))
+g.addEdge("D", "E")
+g.addEdge("D", "F")
+g.addEdge("E", "F")
+console.log(g.dFSRecursive("A"))
